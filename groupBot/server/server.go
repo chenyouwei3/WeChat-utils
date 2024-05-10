@@ -63,6 +63,40 @@ func (n NewBot) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (n NewBot) HandleReplyGroupMessage(msg *openwechat.Message) {
+	err := msg.AsRead()
+	n.FailErrer(err)
+	if strings.Contains(msg.Content, "@银沙") {
+		sender, err := msg.Sender()         //群聊
+		sender1, err := msg.SenderInGroup() //提问人
+		n.FailErrer(err)
+		switch {
+		case msg.Content == "@银沙":
+			_, err := msg.ReplyText("请您输入对应的数字来确定您的问题(1-5)")
+			n.FailErrer(err)
+		case strings.Contains(msg.Content, "问题1"):
+			_, err := msg.ReplyText("您好,这是问题1的答案")
+			n.FailErrer(err)
+		case strings.Contains(msg.Content, "问题2"):
+			_, err := msg.ReplyText("您好,这是问题2的答案")
+			n.FailErrer(err)
+		case strings.Contains(msg.Content, "问题3"):
+			_, err := msg.ReplyText("您好,这是问题3的答案")
+			n.FailErrer(err)
+		case strings.Contains(msg.Content, "问题4"):
+			_, err := msg.ReplyText("您好,这是问题4的答案")
+			n.FailErrer(err)
+		case strings.Contains(msg.Content, "问题5"):
+			_, err := msg.ReplyText("您好,这是问题5的答案")
+			n.FailErrer(err)
+		default:
+			pushVul(sender.NickName, sender1.NickName, msg.Content)
+			_, err := msg.ReplyText("您提问的问题不在我的能力之内,稍后会有人工客服联系您")
+			n.FailErrer(err)
+		}
+	}
+}
+
 func (n *NewBot) Login(bot *openwechat.Bot, method string) {
 	bot.UUIDCallback = openwechat.PrintlnQrcodeUrl // 注册登陆二维码回调
 	reloadStorage := openwechat.NewFileHotReloadStorage("storage.json")
@@ -84,27 +118,6 @@ func (n *NewBot) Login(bot *openwechat.Bot, method string) {
 		}
 	default:
 		log.Fatalln("No Login")
-	}
-}
-
-func (n NewBot) HandleReplyGroupMessage(msg *openwechat.Message) {
-	err := msg.AsRead()
-	n.FailErrer(err)
-	if strings.Contains(msg.Content, "@银沙") {
-		switch {
-		case msg.Content == "@银沙":
-			_, err := msg.ReplyText("请您输入对应的数字来确定您的问题")
-			n.FailErrer(err)
-		case strings.Contains(msg.Content, "问题1"):
-			_, err := msg.ReplyText("你好,这是问题1的答案")
-			n.FailErrer(err)
-		case strings.Contains(msg.Content, "问题2"):
-			_, err := msg.ReplyText("你好,这是问题2的答案")
-			n.FailErrer(err)
-		default:
-			_, err := msg.ReplyText("客户您提问的问题不在我的能力之内,将给你转到人工客服")
-			n.FailErrer(err)
-		}
 	}
 }
 

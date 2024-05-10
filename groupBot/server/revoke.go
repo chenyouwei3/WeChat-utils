@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"github.com/eatmoreapple/openwechat"
 	"sync"
 	"time"
@@ -30,7 +29,6 @@ func (m *ConcurrentMap) StartExpirationCheck(interval time.Duration) {
 	for {
 		select {
 		case <-ticker.C:
-			fmt.Println("test", m)
 			m.CheckAndDeleteExpired()
 		}
 	}
