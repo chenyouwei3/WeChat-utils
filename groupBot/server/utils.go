@@ -37,7 +37,7 @@ func getAllGroup() ([]*openwechat.Group, error) {
 }
 
 func pushVul(group, sender, question string) {
-	url := "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=4c1cd243-6e64-49b1-be04-edd2ed6370f5"
+	url := ""
 	// 构造消息体
 	timeNow := time.Now().Format("2006-01-02 15:04:05")
 	sTring := "[" + group + "]" + "-" + "[" + timeNow + "]" + "-" + "[" + question + "]" + "-" + "[" + sender + "]"
